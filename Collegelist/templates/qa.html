@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollegeFind | Q&A Forum</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f5f5f0;color:#1a1a1a}
+:root{--primary:#534AB7;--primary-light:#EEEDFE;--primary-mid:#AFA9EC;--text:#1a1a1a;--text2:#555;--text3:#888;--bg:#f5f5f0;--card:#fff;--border:#e5e5e5}
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-dot{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-dot i{font-size:17px;color:#fff}
+.nav-logo span{font-size:17px;font-weight:600;color:var(--text)}
+.btn-outline{border:1px solid var(--border);background:#fff;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-weight:500;font-family:inherit}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500;font-family:inherit}
+.page-top{background:#fff;border-bottom:1px solid var(--border);padding:28px 40px}
+.page-top h1{font-size:22px;font-weight:600;margin-bottom:4px}
+.page-top p{font-size:14px;color:var(--text3);margin-bottom:18px}
+.top-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search-wrap{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:#f5f5f0;border:1px solid var(--border);border-radius:10px;padding:9px 14px}
+.search-wrap i{color:var(--text3)}
+.search-wrap input{flex:1;border:none;background:transparent;font-size:14px;color:var(--text);outline:none;font-family:inherit}
+.layout{display:grid;grid-template-columns:1fr 280px;gap:20px;padding:24px 40px;max-width:1100px;margin:0 auto}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab{padding:9px 16px;font-size:14px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.q-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:14px;cursor:pointer;transition:all .15s}
+.q-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.07)}
+.q-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.q-vote{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:36px}
+.vote-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;line-height:1;padding:2px;transition:color .1s}
+.vote-btn:hover{color:var(--primary)}
+.vote-count{font-size:14px;font-weight:600;color:var(--text)}
+.q-body{flex:1}
+.q-title{font-size:15px;font-weight:600;margin-bottom:5px;line-height:1.4}
+.q-meta{font-size:12px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.q-meta span{display:flex;align-items:center;gap:3px}
+.q-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.q-tag{background:#f5f5f0;color:var(--text2);font-size:12px;padding:3px 9px;border-radius:5px;font-weight:500}
+.q-footer{display:flex;align-items:center;justify-content:space-between}
+.answer-count{font-size:13px;font-weight:500;color:var(--primary);display:flex;align-items:center;gap:4px}
+.answer-count.zero{color:var(--text3)}
+.author{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#3C3489;flex-shrink:0}
+.sidebar-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+.sidebar-card h4{font-size:14px;font-weight:600;margin-bottom:14px}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:14px;color:var(--text2)}
+.cat-item:last-child{border-bottom:none}
+.cat-item:hover{color:var(--primary)}
+.cat-count{background:#f5f5f0;font-size:11px;padding:2px 7px;border-radius:100px;color:var(--text3)}
+.trending-q{font-size:13px;color:var(--text2);padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;line-height:1.4}
+.trending-q:last-child{border-bottom:none}
+.trending-q:hover{color:var(--primary)}
+
+/* ASK MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:540px}
+.modal-box h3{font-size:18px;font-weight:600;margin-bottom:20px}
+.form-group{margin-bottom:16px}
+.form-group label{font-size:13px;font-weight:500;color:var(--text2);display:block;margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;outline:none;font-family:inherit;color:var(--text);transition:border-color .15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary)}
+.form-group textarea{resize:vertical;min-height:100px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+
+/* DETAIL VIEW */
+.detail-view{display:none}
+.detail-view.open{display:block}
+.list-view.hidden{display:none}
+.ans-card{background:#f5f5f0;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.ans-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ans-author{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.ans-text{font-size:14px;color:var(--text2);line-height:1.7}
+.accepted{border:2px solid #4CAF50;background:#EAF3DE}
+.accepted-badge{font-size:11px;font-weight:600;color:#3B6D11;background:#d5edbe;padding:3px 8px;border-radius:100px;display:flex;align-items:center;gap:3px}
+@media(max-width:768px){
+  .nav{padding:0 16px}
+  .page-top{padding:20px 16px}
+  .layout{grid-template-columns:1fr;padding:16px}
+  .sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-dot"><i class="ti ti-school"></i></div>
+    <span>CollegeFind</span>
+  </a>
+  <div style="display:flex;gap:10px">
+    <button class="btn-outline" onclick="openAsk()"><i class="ti ti-pencil"></i> Ask question</button>
+    <button class="btn-primary">Sign up</button>
+  </div>
+</nav>
+
+<div class="page-top">
+  <h1>Q&amp;A Forum</h1>
+  <p>Ask questions, share knowledge, help fellow students</p>
+  <div class="top-bar">
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input id="qSearch" placeholder="Search questions…" oninput="filterQs()">
+    </div>
+    <select id="qCat" onchange="filterQs()" style="border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;background:#fff;font-family:inherit;outline:none;cursor:pointer">
+      <option value="">All categories</option>
+      <option>Admissions</option>
+      <option>Fees & Scholarships</option>
+      <option>Placements</option>
+      <option>Hostel & Campus</option>
+      <option>Exams & Cutoffs</option>
+    </select>
+    <button class="btn-primary" onclick="openAsk()"><i class="ti ti-plus"></i> Ask question</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div>
+    <div class="tabs">
+      <div class="tab active" onclick="setSort('latest',this)">Latest</div>
+      <div class="tab" onclick="setSort('popular',this)">Most popular</div>
+      <div class="tab" onclick="setSort('unanswered',this)">Unanswered</div>
+    </div>
+
+    <div class="list-view" id="listView"></div>
+
+    <div class="detail-view" id="detailView">
+      <button onclick="backToList()" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--primary);font-size:14px;font-weight:500;margin-bottom:16px;font-family:inherit"><i class="ti ti-arrow-left"></i> Back to questions</button>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <h4>Browse by category</h4>
+      <div class="cat-item" onclick="setCat('Admissions')">Admissions <span class="cat-count">142</span></div>
+      <div class="cat-item" onclick="setCat('Fees & Scholarships')">Fees & Scholarships <span class="cat-count">89</span></div>
+      <div class="cat-item" onclick="setCat('Placements')">Placements <span class="cat-count">210</span></div>
+      <div class="cat-item" onclick="setCat('Hostel & Campus')">Hostel & Campus <span class="cat-count">67</span></div>
+      <div class="cat-item" onclick="setCat('Exams & Cutoffs')">Exams & Cutoffs <span class="cat-count">175</span></div>
+    </div>
+    <div class="sidebar-card">
+      <h4>Trending questions</h4>
+      <div class="trending-q">What is the JEE Advanced cutoff for IIT Bombay CSE 2025?</div>
+      <div class="trending-q">NEET vs AIIMS — which is harder to crack?</div>
+      <div class="trending-q">Is VIT Vellore worth it over NIT for B.Tech?</div>
+      <div class="trending-q">IIM vs ISB — which gives better placements?</div>
+    </div>
+    <div class="sidebar-card" style="background:var(--primary-light);border-color:var(--primary-mid)">
+      <h4 style="color:#3C3489">Share your knowledge</h4>
+      <p style="font-size:13px;color:#3C3489;line-height:1.6;margin-bottom:14px">Are you a student or alum? Help others with your experience.</p>
+      <button class="btn-primary" style="width:100%" onclick="openAsk()">Answer questions</button>
+    </div>
+  </div>
+</div>
+
+<!-- ASK MODAL -->
+<div class="modal-bg" id="askModal">
+  <div class="modal-box">
+    <h3>Ask a question</h3>
+    <div class="form-group">
+      <label>Your question title</label>
+      <input id="qTitle" placeholder="e.g. What is the cutoff for IIT Bombay CSE?">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="qCatModal">
+        <option>Admissions</option>
+        <option>Fees & Scholarships</option>
+        <option>Placements</option>
+        <option>Hostel & Campus</option>
+        <option>Exams & Cutoffs</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Details (optional)</label>
+      <textarea id="qBody" placeholder="Add more context to help others answer better…"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeAsk()">Cancel</button>
+      <button class="btn-primary" onclick="submitQ()">Post question</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANSWER MODAL -->
+<div class="modal-bg" id="ansModal">
+  <div class="modal-box">
+    <h3>Write an answer</h3>
+    <div class="form-group">
+      <label>Your answer</label>
+      <textarea id="ansBody" placeholder="Share what you know…" style="min-height:140px"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeAns()">Cancel</button>
+      <button class="btn-primary" onclick="submitAns()">Post answer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let questions=[
+  {id:1,title:'What is the closing rank for IIT Bombay CSE in JEE Advanced 2024?',body:'I got around rank 150 in JEE Advanced. Is there any chance for CSE at IIT Bombay or should I target other branches?',category:'Exams & Cutoffs',tags:['IIT Bombay','JEE Advanced','CSE'],votes:84,author:'Rohit S.',role:'JEE 2024 Aspirant',time:'2 days ago',answers:[
+    {id:1,text:'The closing rank for B.Tech CSE at IIT Bombay for General category was around 63 in 2024. With rank 150, CSE might be tough, but you could try Electrical Engineering (closing ~180) or Engineering Physics. Consider JOSAA mock allotments to plan better.',author:'Alumni IIT B',role:'IIT Bombay CSE, 2022',accepted:true,votes:42,time:'2 days ago'},
+    {id:2,text:'I got rank 145 last year and got EE at IIT Bombay. If you are okay with EE or Mech, you have a good chance. The college is worth it regardless of branch — placements are great across departments.',author:'Current Student',role:'IIT Bombay EE, 3rd year',accepted:false,votes:28,time:'1 day ago'},
+  ]},
+  {id:2,title:'Is BITS Pilani worth it over NIT Trichy for B.Tech CSE?',body:'I have a seat in BITS Pilani CSE and NIT Trichy CSE. BITS fees are much higher (₹4.5L/yr vs ₹1.4L/yr). Placements wise which is better?',category:'Admissions',tags:['BITS Pilani','NIT Trichy','CSE','Placements'],votes:67,author:'Priya M.',role:'Aspirant',time:'3 days ago',answers:[
+    {id:1,text:'BITS Pilani has better brand recognition in the software industry, especially for product companies. If placements and exposure are priority and you can afford the fees, BITS is worth it. NIT Trichy is also excellent with lower fees — depends on your financial situation.',author:'Working Professional',role:'Ex BITS Pilani, now at Google',accepted:true,votes:55,time:'3 days ago'},
+  ]},
+  {id:3,title:'How are scholarships given at AIIMS Delhi? Can students from general category get them?',body:'',category:'Fees & Scholarships',tags:['AIIMS','Scholarship','Medical'],votes:45,author:'Anjali K.',role:'NEET 2024',time:'5 days ago',answers:[]},
+  {id:4,title:'Is hostel accommodation guaranteed for all B.Tech students at IIT Delhi?',body:'I am from UP and will need hostel. Is it guaranteed or do I have to apply separately? What are the facilities like?',category:'Hostel & Campus',tags:['IIT Delhi','Hostel'],votes:38,author:'Saurabh T.',role:'Incoming student',time:'1 week ago',answers:[
+    {id:1,text:'Yes, all B.Tech students at IIT Delhi are guaranteed hostel accommodation for all 4 years. You do not need to apply separately — it is allotted automatically. Rooms are decent with good internet, attached bathroom in some hostels. Food in mess is average but you get used to it.',author:'Vikram R.',role:'IIT Delhi, 2nd year',accepted:true,votes:31,time:'6 days ago'},
+  ]},
+  {id:5,title:'What is the average package at IIM Ahmedabad and how is it calculated?',body:'I see different numbers — some say ₹32L, some ₹25L. What is the actual average?',category:'Placements',tags:['IIM Ahmedabad','MBA','Placement'],votes:92,author:'Neha P.',role:'CAT 2024 Aspirant',time:'4 days ago',answers:[
+    {id:1,text:'The ₹32L figure is the median domestic CTC reported by IIMA for PGP 2024 batch. The average is slightly different from median. International offers (like those from US/UK firms) can skew the average. Best to check the official IIMA placement report which is publicly available on their website for accurate data.',author:'MBA Consultant',role:'IIMA Alumni, Finance sector',accepted:true,votes:74,time:'4 days ago'},
+  ]},
+];
+let currentSort='latest';
+let currentCat='';
+let activeQId=null;
+
+function filterQs(){
+  const q=document.getElementById('qSearch').value.toLowerCase();
+  const cat=document.getElementById('qCat').value||currentCat;
+  let list=[...questions];
+  if(q)list=list.filter(x=>x.title.toLowerCase().includes(q)||x.tags.join(' ').toLowerCase().includes(q));
+  if(cat)list=list.filter(x=>x.category===cat);
+  if(currentSort==='popular')list.sort((a,b)=>b.votes-a.votes);
+  else if(currentSort==='unanswered')list=list.filter(x=>x.answers.length===0);
+  renderList(list);
+}
+
+function renderList(list){
+  document.getElementById('listView').classList.remove('hidden');
+  document.getElementById('detailView').classList.remove('open');
+  document.getElementById('listView').innerHTML=list.length?list.map(q=>`
+    <div class="q-card" onclick="openQuestion(${q.id})">
+      <div class="q-header">
+        <div class="q-vote">
+          <button class="vote-btn" onclick="event.stopPropagation();voteQ(${q.id},1)"><i class="ti ti-chevron-up"></i></button>
+          <span class="vote-count" id="qv-${q.id}">${q.votes}</span>
+          <button class="vote-btn" onclick="event.stopPropagation();voteQ(${q.id},-1)"><i class="ti ti-chevron-down"></i></button>
+        </div>
+        <div class="q-body">
+          <div class="q-title">${q.title}</div>
+          <div class="q-meta">
+            <span><i class="ti ti-tag" style="font-size:11px"></i>${q.category}</span>
+            <span><i class="ti ti-clock" style="font-size:11px"></i>${q.time}</span>
+          </div>
+          <div class="q-tags">${q.tags.map(t=>`<span class="q-tag">${t}</span>`).join('')}</div>
+          <div class="q-footer">
+            <span class="answer-count${q.answers.length===0?' zero':''}">
+              <i class="ti ti-message"></i>${q.answers.length} answer${q.answers.length!==1?'s':''}
+            </span>
+            <div class="author"><div class="avatar">${q.author[0]}</div>${q.author} · ${q.role}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join(''):'<div style="text-align:center;padding:48px;color:#888;font-size:14px"><i class="ti ti-messages" style="font-size:36px;display:block;margin-bottom:10px"></i>No questions found.</div>';
+}
+
+function openQuestion(id){
+  activeQId=id;
+  const q=questions.find(x=>x.id===id);
+  document.getElementById('listView').classList.add('hidden');
+  const dv=document.getElementById('detailView');
+  dv.classList.add('open');
+  dv.querySelector('#detailContent').innerHTML=`
+    <div class="q-card" style="cursor:default">
+      <div class="q-header">
+        <div class="q-vote">
+          <button class="vote-btn" onclick="voteQ(${q.id},1)"><i class="ti ti-chevron-up"></i></button>
+          <span class="vote-count" id="qv-${q.id}">${q.votes}</span>
+          <button class="vote-btn" onclick="voteQ(${q.id},-1)"><i class="ti ti-chevron-down"></i></button>
+        </div>
+        <div class="q-body">
+          <div class="q-title" style="font-size:17px">${q.title}</div>
+          ${q.body?`<p style="font-size:14px;color:var(--text2);line-height:1.7;margin-top:8px">${q.body}</p>`:''}
+          <div class="q-meta" style="margin-top:10px">
+            <span><i class="ti ti-tag" style="font-size:11px"></i>${q.category}</span>
+            <span><i class="ti ti-clock" style="font-size:11px"></i>${q.time}</span>
+          </div>
+          <div class="q-tags">${q.tags.map(t=>`<span class="q-tag">${t}</span>`).join('')}</div>
+          <div class="author" style="margin-top:8px"><div class="avatar">${q.author[0]}</div>${q.author} · ${q.role}</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:20px 0 14px;display:flex;align-items:center;justify-content:space-between">
+      <h3 style="font-size:16px;font-weight:600">${q.answers.length} Answer${q.answers.length!==1?'s':''}</h3>
+      <button class="btn-primary" onclick="openAns()"><i class="ti ti-pencil"></i> Write answer</button>
+    </div>
+    ${q.answers.map(a=>`
+      <div class="ans-card${a.accepted?' accepted':''}">
+        <div class="ans-header">
+          <div class="ans-author"><div class="avatar">${a.author[0]}</div><div><div style="font-weight:600">${a.author}</div><div style="font-size:11px;color:var(--text3)">${a.role}</div></div></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${a.accepted?'<span class="accepted-badge"><i class="ti ti-check"></i>Accepted</span>':''}
+            <span style="font-size:12px;color:var(--text3)"><i class="ti ti-arrow-up" style="font-size:11px"></i>${a.votes}</span>
+          </div>
+        </div>
+        <p class="ans-text">${a.text}</p>
+        <div style="font-size:11px;color:var(--text3);margin-top:8px">${a.time}</div>
+      </div>`).join('')}
+    ${q.answers.length===0?'<div style="text-align:center;padding:32px;color:#888;font-size:14px"><i class="ti ti-message-off" style="font-size:32px;display:block;margin-bottom:8px"></i>No answers yet. Be the first!</div>':''}
+  `;
+}
+
+function backToList(){filterQs();}
+function voteQ(id,dir){const q=questions.find(x=>x.id===id);if(q){q.votes+=dir;const el=document.getElementById('qv-'+id);if(el)el.textContent=q.votes;}}
+function setSort(s,el){currentSort=s;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');filterQs();}
+function setCat(c){currentCat=c;document.getElementById('qCat').value=c;filterQs();}
+function openAsk(){document.getElementById('askModal').classList.add('open');}
+function closeAsk(){document.getElementById('askModal').classList.remove('open');}
+function openAns(){document.getElementById('ansModal').classList.add('open');}
+function closeAns(){document.getElementById('ansModal').classList.remove('open');}
+document.getElementById('askModal').addEventListener('click',e=>{if(e.target===document.getElementById('askModal'))closeAsk();});
+document.getElementById('ansModal').addEventListener('click',e=>{if(e.target===document.getElementById('ansModal'))closeAns();});
+
+function submitQ(){
+  const title=document.getElementById('qTitle').value.trim();
+  if(!title)return;
+  const q={id:Date.now(),title,body:document.getElementById('qBody').value,category:document.getElementById('qCatModal').value,tags:[document.getElementById('qCatModal').value],votes:0,author:'You',role:'Member',time:'Just now',answers:[]};
+  questions.unshift(q);
+  closeAsk();
+  document.getElementById('qTitle').value='';
+  document.getElementById('qBody').value='';
+  filterQs();
+}
+
+function submitAns(){
+  const text=document.getElementById('ansBody').value.trim();
+  if(!text||!activeQId)return;
+  const q=questions.find(x=>x.id===activeQId);
+  if(q){q.answers.push({id:Date.now(),text,author:'You',role:'Member',accepted:false,votes:0,time:'Just now'});}
+  closeAns();
+  document.getElementById('ansBody').value='';
+  openQuestion(activeQId);
+}
+
+filterQs();
+</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollegeFind | Compare Colleges</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f5f5f0;color:#1a1a1a}
+:root{--primary:#534AB7;--primary-light:#EEEDFE;--primary-mid:#AFA9EC;--text:#1a1a1a;--text2:#555;--text3:#888;--bg:#f5f5f0;--card:#fff;--border:#e5e5e5}
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-dot{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-dot i{font-size:17px;color:#fff}
+.nav-logo span{font-size:17px;font-weight:600;color:var(--text)}
+.btn-outline{border:1px solid var(--border);background:#fff;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-weight:500}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500}
+.page-header{padding:28px 40px 0;background:#fff;border-bottom:1px solid var(--border)}
+.page-header h1{font-size:22px;font-weight:600;margin-bottom:4px}
+.page-header p{font-size:14px;color:var(--text3);margin-bottom:20px}
+.picker-row{display:flex;gap:14px;padding-bottom:20px;flex-wrap:wrap}
+.picker-slot{flex:1;min-width:200px;max-width:280px;border:2px dashed var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .15s;background:#f5f5f0;display:flex;align-items:center;gap:10px}
+.picker-slot.filled{border:2px solid var(--primary-mid);background:#fff}
+.picker-slot:hover{border-color:var(--primary-mid)}
+.slot-icon{width:40px;height:40px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.slot-icon i{font-size:18px;color:#3C3489}
+.slot-text{font-size:13px;font-weight:500;color:var(--text2)}
+.slot-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.remove-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px}
+.remove-btn:hover{color:#c0392b}
+.main{padding:24px 40px}
+.compare-table{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+.col-label{width:180px;background:#f5f5f0;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);padding:14px 18px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);vertical-align:middle}
+.col-val{padding:14px 18px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center}
+.col-val:last-child{border-right:none}
+.col-label:last-child{border-right:none}
+.section-row td{background:#f5f5f0;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:10px 18px}
+.college-header{padding:18px;text-align:center;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:#fff}
+.college-header:last-child{border-right:none}
+.ch-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.ch-icon i{font-size:22px}
+.ch-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.ch-loc{font-size:12px;color:var(--text3)}
+.win{background:#EAF3DE;color:#3B6D11;border-radius:6px;padding:3px 8px;font-size:12px;font-weight:600;display:inline-block;margin-left:4px}
+.lose{color:var(--text3)}
+.bar-wrap{display:flex;align-items:center;gap:8px;justify-content:center}
+.mini-bar{flex:1;max-width:80px;height:6px;border-radius:100px;background:#f5f5f0}
+.mini-fill{height:6px;border-radius:100px;background:var(--primary)}
+.verdict{background:var(--primary-light);border:1px solid var(--primary-mid);border-radius:12px;padding:16px 20px;margin-top:20px;display:flex;align-items:flex-start;gap:12px}
+.verdict i{font-size:22px;color:var(--primary);flex-shrink:0;margin-top:2px}
+.verdict-text h4{font-size:14px;font-weight:600;color:#3C3489;margin-bottom:4px}
+.verdict-text p{font-size:13px;color:#3C3489;line-height:1.7}
+.select-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
+.select-modal.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto}
+.modal-box h3{font-size:16px;font-weight:600;margin-bottom:16px}
+.modal-search{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:14px;outline:none;margin-bottom:14px;font-family:inherit}
+.modal-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.modal-item:hover{background:#f9f9f9;border-radius:8px;padding-left:8px}
+.modal-item-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-item-icon i{font-size:16px}
+.modal-item-name{font-size:14px;font-weight:500}
+.modal-item-sub{font-size:12px;color:var(--text3)}
+.modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3)}
+@media(max-width:768px){
+  .nav{padding:0 16px}
+  .page-header{padding:20px 16px 0}
+  .main{padding:16px}
+  .col-label{width:120px;font-size:11px;padding:10px 10px}
+  .col-val{padding:10px 10px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-dot"><i class="ti ti-school"></i></div>
+    <span>CollegeFind</span>
+  </a>
+  <div style="display:flex;gap:10px">
+    <button class="btn-outline" onclick="window.location.href='search.html'"><i class="ti ti-arrow-left"></i> Back to search</button>
+    <button class="btn-primary">Sign up</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Compare colleges</h1>
+  <p>Add up to 3 colleges to compare side by side</p>
+  <div class="picker-row" id="pickerRow"></div>
+</div>
+
+<div class="main">
+  <div class="compare-table" id="compareTable"></div>
+</div>
+
+<!-- SELECT MODAL -->
+<div class="select-modal" id="selectModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    <h3>Select a college</h3>
+    <input class="modal-search" id="modalSearch" placeholder="Search colleges…" oninput="filterModal()">
+    <div id="modalList"></div>
+  </div>
+</div>
+
+<script>
+const BANNERS=['#EEEDFE','#E1F5EE','#FAECE7','#E6F1FB','#FAEEDA'];
+const ICONS=['ti-building-estate','ti-flask','ti-gavel','ti-heart-rate-monitor','ti-chart-bar'];
+const TXTS=['#3C3489','#085041','#712B13','#042C53','#633806'];
+
+const allColleges=[
+{id:1,name:'IIT Bombay',loc:'Mumbai, MH',stream:'Engineering',type:'Government',fees:2.3,feesStr:'₹2.3L/yr',rating:4.9,placement:18,highPkg:150,rank:1,seats:890,icon:0,naac:'A++',estd:1958,campus:'550 acres'},
+{id:2,name:'IIT Delhi',loc:'New Delhi',stream:'Engineering',type:'Government',fees:2.1,feesStr:'₹2.1L/yr',rating:4.8,placement:16,highPkg:120,rank:2,seats:850,icon:0,naac:'A++',estd:1961,campus:'325 acres'},
+{id:3,name:'IIT Madras',loc:'Chennai, TN',stream:'Engineering',type:'Government',fees:2.0,feesStr:'₹2.0L/yr',rating:4.8,placement:15,highPkg:110,rank:3,seats:800,icon:4,naac:'A++',estd:1959,campus:'620 acres'},
+{id:4,name:'BITS Pilani',loc:'Pilani, RJ',stream:'Engineering',type:'Private',fees:4.5,feesStr:'₹4.5L/yr',rating:4.6,placement:12,highPkg:80,rank:5,seats:940,icon:1,naac:'A',estd:1964,campus:'328 acres'},
+{id:5,name:'IIM Ahmedabad',loc:'Ahmedabad, GJ',stream:'MBA',type:'Government',fees:24,feesStr:'₹24L total',rating:4.9,placement:32,highPkg:200,rank:1,seats:400,icon:1,naac:'A++',estd:1961,campus:'103 acres'},
+{id:6,name:'IIM Bangalore',loc:'Bengaluru, KA',stream:'MBA',type:'Government',fees:23,feesStr:'₹23L total',rating:4.8,placement:30,highPkg:180,rank:2,seats:410,icon:4,naac:'A++',estd:1973,campus:'100 acres'},
+{id:7,name:'AIIMS Delhi',loc:'New Delhi',stream:'Medical',type:'Government',fees:0.02,feesStr:'₹1.6K/yr',rating:4.9,placement:12,highPkg:30,rank:1,seats:72,icon:3,naac:'A++',estd:1956,campus:'80 acres'},
+{id:8,name:'NIT Trichy',loc:'Trichy, TN',stream:'Engineering',type:'Government',fees:1.4,feesStr:'₹1.4L/yr',rating:4.5,placement:10,highPkg:60,rank:9,seats:900,icon:4,naac:'A',estd:1964,campus:'800 acres'},
+];
+
+let selected=[];
+let editingSlot=-1;
+
+function init(){
+  const params=new URLSearchParams(location.search);
+  const ids=(params.get('ids')||'').split(',').map(Number).filter(Boolean);
+  selected=allColleges.filter(c=>ids.includes(c.id)).slice(0,3);
+  if(selected.length===0)selected=[allColleges[0],allColleges[1]];
+  render();
+}
+
+function render(){
+  renderPicker();
+  renderTable();
+}
+
+function renderPicker(){
+  const row=document.getElementById('pickerRow');
+  const slots=[];
+  for(let i=0;i<3;i++){
+    const c=selected[i];
+    if(c){
+      slots.push(`<div class="picker-slot filled">
+        <div class="slot-icon" style="background:${BANNERS[c.icon]}"><i class="ti ${ICONS[c.icon]}" style="color:${TXTS[c.icon]}"></i></div>
+        <div><div class="slot-text">${c.name}</div><div class="slot-sub">${c.loc} · ${c.stream}</div></div>
+        <button class="remove-btn" onclick="removeCollege(${i})"><i class="ti ti-x"></i></button>
+      </div>`);
+    } else {
+      slots.push(`<div class="picker-slot" onclick="openModal(${i})">
+        <div class="slot-icon"><i class="ti ti-plus"></i></div>
+        <div><div class="slot-text">Add college</div><div class="slot-sub">Click to select</div></div>
+      </div>`);
+    }
+  }
+  row.innerHTML=slots.join('');
+}
+
+function renderTable(){
+  const el=document.getElementById('compareTable');
+  if(selected.length<2){el.innerHTML='<div style="padding:48px;text-align:center;color:#888;font-size:14px"><i class="ti ti-columns" style="font-size:36px;display:block;margin-bottom:10px"></i>Add at least 2 colleges to compare</div>';return;}
+  const cols=selected;
+  const best=(key,low)=>{
+    const vals=cols.map(c=>c[key]);
+    const best=low?Math.min(...vals):Math.max(...vals);
+    return vals.map(v=>v===best);
+  };
+  const bRating=best('rating',false),bPkg=best('placement',false),bFees=best('fees',true),bRank=best('rank',true),bSeats=best('seats',false);
+
+  const headerCells=cols.map(c=>`<th class="college-header">
+    <div class="ch-icon" style="background:${BANNERS[c.icon]}"><i class="ti ${ICONS[c.icon]}" style="color:${TXTS[c.icon]}"></i></div>
+    <div class="ch-name">${c.name}</div>
+    <div class="ch-loc">${c.loc}</div>
+  </th>`).join('');
+
+  const row=(label,vals,winners)=>`<tr>
+    <td class="col-label">${label}</td>
+    ${vals.map((v,i)=>`<td class="col-val">${v}${winners&&winners[i]?'<span class="win">Best</span>':''}</td>`).join('')}
+  </tr>`;
+
+  const sectionRow=label=>`<tr class="section-row"><td colspan="${cols.length+1}">${label}</td></tr>`;
+
+  el.innerHTML=`<table>
+    <thead><tr><td class="col-label" style="background:#fff"></td>${headerCells}</tr></thead>
+    <tbody>
+      ${sectionRow('Basic info')}
+      ${row('Stream',cols.map(c=>c.stream))}
+      ${row('Type',cols.map(c=>c.type))}
+      ${row('Established',cols.map(c=>c.estd))}
+      ${row('Campus area',cols.map(c=>c.campus))}
+      ${row('NAAC grade',cols.map(c=>c.naac))}
+      ${sectionRow('Academics & ranking')}
+      ${row('NIRF rank',cols.map((c,i)=>`#${c.rank}`),bRank)}
+      ${row('Rating',cols.map(c=>`${c.rating} ★`),bRating)}
+      ${row('Total seats',cols.map(c=>c.seats),bSeats)}
+      ${sectionRow('Fees')}
+      ${row('Annual fees',cols.map(c=>c.feesStr),bFees)}
+      ${sectionRow('Placements')}
+      ${row('Avg package',cols.map(c=>`₹${c.placement}L`),bPkg)}
+      ${row('Highest package',cols.map(c=>`₹${c.highPkg}L`),best('highPkg',false))}
+    </tbody>
+  </table>
+  ${renderVerdict(cols)}`;
+}
+
+function renderVerdict(cols){
+  const scores=cols.map(c=>c.rating*10+c.placement/3+(10-c.rank/10)+(10-c.fees/5));
+  const bestIdx=scores.indexOf(Math.max(...scores));
+  const winner=cols[bestIdx];
+  return `<div class="verdict">
+    <i class="ti ti-sparkles"></i>
+    <div class="verdict-text">
+      <h4>Our recommendation: ${winner.name}</h4>
+      <p>Based on ratings, placements, fees and NIRF ranking, <strong>${winner.name}</strong> scores highest overall. It offers the best balance of academics and career outcomes among the selected colleges. If fees are a concern, consider ${cols.find((_,i)=>i!==bestIdx&&cols[i].fees===Math.min(...cols.map(c=>c.fees)))?.name||'the other options'}.</p>
+    </div>
+  </div>`;
+}
+
+function openModal(slot){editingSlot=slot;filterModal();document.getElementById('selectModal').classList.add('open');document.getElementById('modalSearch').focus();}
+function closeModal(){document.getElementById('selectModal').classList.remove('open');}
+document.getElementById('selectModal').addEventListener('click',e=>{if(e.target===document.getElementById('selectModal'))closeModal();});
+
+function filterModal(){
+  const q=document.getElementById('modalSearch').value.toLowerCase();
+  const available=allColleges.filter(c=>!selected.find(s=>s&&s.id===c.id)&&(c.name.toLowerCase().includes(q)||c.stream.toLowerCase().includes(q)||c.loc.toLowerCase().includes(q)));
+  document.getElementById('modalList').innerHTML=available.map(c=>`
+    <div class="modal-item" onclick="selectCollege(${c.id})">
+      <div class="modal-item-icon" style="background:${BANNERS[c.icon]}"><i class="ti ${ICONS[c.icon]}" style="color:${TXTS[c.icon]}"></i></div>
+      <div><div class="modal-item-name">${c.name}</div><div class="modal-item-sub">${c.loc} · ${c.stream}</div></div>
+    </div>`).join('')||'<p style="font-size:13px;color:#888;padding:12px 0">No colleges found.</p>';
+}
+
+function selectCollege(id){
+  const c=allColleges.find(x=>x.id===id);
+  if(editingSlot<selected.length)selected[editingSlot]=c;else selected.push(c);
+  closeModal();render();
+}
+
+function removeCollege(idx){selected.splice(idx,1);render();}
+
+init();
+</script>
+</body>
+</html>

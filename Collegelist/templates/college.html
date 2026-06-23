@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollegeFind | College Detail</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f5f5f0;color:#1a1a1a}
+:root{--primary:#534AB7;--primary-light:#EEEDFE;--primary-mid:#AFA9EC;--text:#1a1a1a;--text2:#555;--text3:#888;--bg:#f5f5f0;--card:#fff;--border:#e5e5e5}
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-dot{width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-dot i{font-size:17px;color:#fff}
+.nav-logo span{font-size:17px;font-weight:600;color:var(--text)}
+.btn-outline{border:1px solid var(--border);background:#fff;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;color:var(--text);font-weight:500}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500}
+.breadcrumb{padding:14px 40px;font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.breadcrumb a{color:var(--primary);text-decoration:none}
+.hero-banner{background:#EEEDFE;padding:36px 40px;border-bottom:1px solid var(--border)}
+.hero-top{display:flex;align-items:flex-start;gap:20px;margin-bottom:24px}
+.college-logo{width:72px;height:72px;border-radius:14px;background:#534AB7;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.college-logo i{font-size:34px;color:#fff}
+.college-title h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.college-title .meta{display:flex;gap:14px;font-size:13px;color:var(--text2);flex-wrap:wrap}
+.college-title .meta span{display:flex;align-items:center;gap:4px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.hstat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.hstat-label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.hstat-val{font-size:20px;font-weight:600;color:var(--text)}
+.hstat-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.hero-actions{display:flex;gap:10px;margin-top:20px}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:20px;padding:24px 40px;max-width:1200px;margin:0 auto}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto}
+.tab{padding:10px 18px;font-size:14px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.card h3{font-size:16px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card h3 i{color:var(--primary)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info-item{background:#f5f5f0;padding:10px 12px;border-radius:8px}
+.info-label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.info-val{font-size:14px;font-weight:500;color:var(--text)}
+.course-row{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.course-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.course-meta{font-size:12px;color:var(--text3)}
+.course-fee{font-size:14px;font-weight:600;color:var(--primary)}
+.placement-bar{margin-bottom:14px}
+.placement-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.placement-label span:last-child{font-weight:600}
+.bar-bg{background:#f5f5f0;border-radius:100px;height:8px}
+.bar-fill{height:8px;border-radius:100px;background:var(--primary)}
+.review-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.reviewer{display:flex;align-items:center;gap:8px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#3C3489}
+.reviewer-name{font-size:14px;font-weight:600}
+.reviewer-role{font-size:12px;color:var(--text3)}
+.stars{color:#BA7517;font-size:13px}
+.review-text{font-size:14px;color:var(--text2);line-height:1.7}
+.review-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.review-tag{background:#f5f5f0;font-size:11px;padding:3px 8px;border-radius:5px;color:var(--text3)}
+.sidebar-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.sidebar-card h4{font-size:14px;font-weight:600;margin-bottom:14px}
+.apply-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:10px;font-family:inherit}
+.apply-btn:hover{background:#3C3489}
+.outline-btn{width:100%;background:#fff;color:var(--primary);border:1px solid var(--primary-mid);padding:11px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:10px;font-family:inherit}
+.deadline{background:var(--primary-light);border-radius:8px;padding:10px 12px;font-size:13px;color:#3C3489;display:flex;align-items:center;gap:6px}
+.contact-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border)}
+.contact-row:last-child{border-bottom:none}
+.contact-row i{color:var(--primary)}
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;padding:16px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .hero-banner{padding:24px 20px}
+  .breadcrumb{padding:10px 20px}
+  .nav{padding:0 20px}
+  .info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/home" class="nav-logo">
+    <div class="nav-logo-dot"><i class="ti ti-school"></i></div>
+    <span>CollegeFind</span>
+  </a>
+  <div style="display:flex;gap:10px">
+    <button class="btn-outline">Login</button>
+    <button class="btn-primary">Sign up</button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="/">Home</a><i class="ti ti-chevron-right" style="font-size:12px"></i>
+  <a href="/search">Colleges</a><i class="ti ti-chevron-right" style="font-size:12px"></i>
+  <span id="breadName">IIT Bombay</span>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-top">
+    <div class="college-logo"><i class="ti ti-building-estate"></i></div>
+    <div class="college-title">
+      <h1 id="cName">IIT Bombay</h1>
+      <div class="meta">
+        <span><i class="ti ti-map-pin"></i><span id="cLoc">Mumbai, Maharashtra</span></span>
+        <span><i class="ti ti-building"></i><span id="cType">Government · Autonomous</span></span>
+        <span><i class="ti ti-award"></i>NIRF Rank <strong id="cRank">#1</strong></span>
+        <span><i class="ti ti-calendar"></i>Est. 1958</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-label">NIRF Rating</div><div class="hstat-val" id="cRating">4.9</div><div class="hstat-sub">★★★★★ Excellent</div></div>
+    <div class="hstat"><div class="hstat-label">Annual Fees</div><div class="hstat-val" id="cFees">₹2.3L</div><div class="hstat-sub">per year</div></div>
+    <div class="hstat"><div class="hstat-label">Avg Package</div><div class="hstat-val" id="cPkg">₹18L</div><div class="hstat-sub">Highest: ₹1.5Cr</div></div>
+    <div class="hstat"><div class="hstat-label">Total Students</div><div class="hstat-val">9,500+</div><div class="hstat-sub">across programs</div></div>
+  </div>
+  <div class="hero-actions">
+    <button class="btn-primary"><i class="ti ti-file-text"></i> Apply now</button>
+    <button class="btn-outline" id="saveBtn" onclick="toggleSave()"><i class="ti ti-heart" id="saveIcon"></i> Save college</button>
+    <button class="btn-outline" onclick="window.location.href='/compare'"><i class="ti ti-columns"></i> Compare</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('overview',this)">Overview</div>
+      <div class="tab" onclick="switchTab('courses',this)">Courses</div>
+      <div class="tab" onclick="switchTab('placements',this)">Placements</div>
+      <div class="tab" onclick="switchTab('reviews',this)">Reviews</div>
+      <div class="tab" onclick="switchTab('qa',this)">Q&amp;A</div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="tab-content active" id="tab-overview">
+      <div class="card">
+        <h3><i class="ti ti-info-circle"></i>About the college</h3>
+        <p style="font-size:14px;line-height:1.8;color:var(--text2)">Indian Institute of Technology Bombay (IIT Bombay) is a public technical and research university located in Powai, Mumbai. Established in 1958, it is one of India's oldest and most prestigious engineering institutions, consistently ranked #1 by NIRF. The campus spans 550 acres with world-class research facilities, incubation centres, and 17 academic departments.</p>
+        <p style="font-size:14px;line-height:1.8;color:var(--text2);margin-top:12px">IIT Bombay is known for its strong alumni network in Silicon Valley, top-tier placements, and a vibrant campus culture with fests like Mood Indigo and Techfest attracting lakhs of students every year.</p>
+      </div>
+      <div class="card">
+        <h3><i class="ti ti-list-details"></i>Key details</h3>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Type</div><div class="info-val">Government (Institute of National Importance)</div></div>
+          <div class="info-item"><div class="info-label">Location</div><div class="info-val">Powai, Mumbai, Maharashtra</div></div>
+          <div class="info-item"><div class="info-label">Established</div><div class="info-val">1958</div></div>
+          <div class="info-item"><div class="info-label">Affiliated to</div><div class="info-val">Autonomous (Deemed University)</div></div>
+          <div class="info-item"><div class="info-label">Campus area</div><div class="info-val">550 acres</div></div>
+          <div class="info-item"><div class="info-label">Total faculty</div><div class="info-val">700+</div></div>
+          <div class="info-item"><div class="info-label">Entrance exam</div><div class="info-val">JEE Advanced</div></div>
+          <div class="info-item"><div class="info-label">NAAC grade</div><div class="info-val">A++ (4.0/4.0)</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><i class="ti ti-trophy"></i>Rankings & recognition</h3>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">NIRF 2024</div><div class="info-val">#1 in Engineering</div></div>
+          <div class="info-item"><div class="info-label">QS World 2025</div><div class="info-val">#118 Globally</div></div>
+          <div class="info-item"><div class="info-label">THE Asia Rank</div><div class="info-val">Top 50 in Asia</div></div>
+          <div class="info-item"><div class="info-label">India Today</div><div class="info-val">#1 Engineering 2024</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <div class="tab-content" id="tab-courses">
+      <div class="card">
+        <h3><i class="ti ti-book"></i>Undergraduate programmes</h3>
+        <div class="course-row"><div><div class="course-name">B.Tech Computer Science & Engineering</div><div class="course-meta">4 years · 120 seats · JEE Advanced</div></div><div class="course-fee">₹2.3L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">B.Tech Electrical Engineering</div><div class="course-meta">4 years · 90 seats · JEE Advanced</div></div><div class="course-fee">₹2.1L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">B.Tech Mechanical Engineering</div><div class="course-meta">4 years · 85 seats · JEE Advanced</div></div><div class="course-fee">₹2.1L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">B.Tech Chemical Engineering</div><div class="course-meta">4 years · 70 seats · JEE Advanced</div></div><div class="course-fee">₹2.0L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">B.S. Mathematics</div><div class="course-meta">4 years · 40 seats · JEE Advanced</div></div><div class="course-fee">₹1.9L/yr</div></div>
+      </div>
+      <div class="card">
+        <h3><i class="ti ti-school"></i>Postgraduate programmes</h3>
+        <div class="course-row"><div><div class="course-name">M.Tech CSE (Specialisations: AI/ML, Systems)</div><div class="course-meta">2 years · 60 seats · GATE</div></div><div class="course-fee">₹1.2L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">MBA (SJM School of Management)</div><div class="course-meta">2 years · 60 seats · CAT / GMAT</div></div><div class="course-fee">₹4.5L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">M.Sc Data Science</div><div class="course-meta">2 years · 30 seats · JAM</div></div><div class="course-fee">₹1.0L/yr</div></div>
+        <div class="course-row"><div><div class="course-name">PhD (All departments)</div><div class="course-meta">3–5 years · Rolling admission</div></div><div class="course-fee">Stipend provided</div></div>
+      </div>
+    </div>
+
+    <!-- PLACEMENTS -->
+    <div class="tab-content" id="tab-placements">
+      <div class="card">
+        <h3><i class="ti ti-trending-up"></i>Placement summary 2024</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+          <div class="info-item"><div class="info-label">Highest CTC</div><div class="info-val" style="color:var(--primary)">₹1.5 Cr</div></div>
+          <div class="info-item"><div class="info-label">Average CTC</div><div class="info-val">₹18.5L</div></div>
+          <div class="info-item"><div class="info-label">Median CTC</div><div class="info-val">₹14.2L</div></div>
+          <div class="info-item"><div class="info-label">Students placed</div><div class="info-val">92%</div></div>
+          <div class="info-item"><div class="info-label">Companies visited</div><div class="info-val">400+</div></div>
+          <div class="info-item"><div class="info-label">Offers made</div><div class="info-val">1,200+</div></div>
+        </div>
+        <h4 style="font-size:14px;font-weight:600;margin-bottom:14px">Placement by branch (avg CTC)</h4>
+        <div class="placement-bar"><div class="placement-label"><span>CSE</span><span>₹28L</span></div><div class="bar-bg"><div class="bar-fill" style="width:95%"></div></div></div>
+        <div class="placement-bar"><div class="placement-label"><span>Electrical</span><span>₹18L</span></div><div class="bar-bg"><div class="bar-fill" style="width:65%"></div></div></div>
+        <div class="placement-bar"><div class="placement-label"><span>Mechanical</span><span>₹14L</span></div><div class="bar-bg"><div class="bar-fill" style="width:50%"></div></div></div>
+        <div class="placement-bar"><div class="placement-label"><span>Chemical</span><span>₹12L</span></div><div class="bar-bg"><div class="bar-fill" style="width:42%"></div></div></div>
+      </div>
+      <div class="card">
+        <h3><i class="ti ti-building"></i>Top recruiting companies</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Google</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Microsoft</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Goldman Sachs</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">McKinsey</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Amazon</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Samsung</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Qualcomm</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">DE Shaw</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">ISRO</span>
+          <span style="background:#f5f5f0;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:500">Bain & Co</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="tab-content" id="tab-reviews">
+      <div class="card" style="padding:16px 20px">
+        <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px">
+          <div style="text-align:center"><div style="font-size:48px;font-weight:600;color:var(--primary)">4.9</div><div style="color:#BA7517;font-size:18px">★★★★★</div><div style="font-size:12px;color:var(--text3);margin-top:4px">312 reviews</div></div>
+          <div style="flex:1">
+            <div class="placement-bar"><div class="placement-label"><span>Academics</span><span>4.9</span></div><div class="bar-bg"><div class="bar-fill" style="width:98%"></div></div></div>
+            <div class="placement-bar"><div class="placement-label"><span>Placements</span><span>4.8</span></div><div class="bar-bg"><div class="bar-fill" style="width:96%"></div></div></div>
+            <div class="placement-bar"><div class="placement-label"><span>Campus life</span><span>4.7</span></div><div class="bar-bg"><div class="bar-fill" style="width:94%"></div></div></div>
+            <div class="placement-bar"><div class="placement-label"><span>Infrastructure</span><span>4.8</span></div><div class="bar-bg"><div class="bar-fill" style="width:96%"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-header"><div class="reviewer"><div class="avatar">RK</div><div><div class="reviewer-name">Rahul Kumar</div><div class="reviewer-role">B.Tech CSE, Batch 2023</div></div></div><span style="color:#BA7517;font-size:14px">★★★★★</span></div>
+        <p class="review-text">Best 4 years of my life. The academics are rigorous but the exposure you get is unmatched. My internship at Google came through campus placements. The profs are world-class researchers. Definitely recommend to any JEE aspirant.</p>
+        <div class="review-tags"><span class="review-tag">Placements ✓</span><span class="review-tag">Campus life ✓</span><span class="review-tag">Faculty ✓</span></div>
+      </div>
+      <div class="review-card">
+        <div class="review-header"><div class="reviewer"><div class="avatar">AP</div><div><div class="reviewer-name">Arjun Patil</div><div class="reviewer-role">M.Tech EE, Batch 2022</div></div></div><span style="color:#BA7517;font-size:14px">★★★★☆</span></div>
+        <p class="review-text">The research environment here is exceptional. Got to work with faculty on published papers. Hostel facilities are decent. Canteen food could be better. Overall a transformative experience that I would choose again without hesitation.</p>
+        <div class="review-tags"><span class="review-tag">Research ✓</span><span class="review-tag">Hostel ✓</span></div>
+      </div>
+      <div class="review-card">
+        <div class="review-header"><div class="reviewer"><div class="avatar">SM</div><div><div class="reviewer-name">Sneha Menon</div><div class="reviewer-role">MBA SJM, Batch 2024</div></div></div><span style="color:#BA7517;font-size:14px">★★★★★</span></div>
+        <p class="review-text">The IIT brand name opens so many doors. Alumni network is incredibly supportive. Our batch had placements from top consulting and finance firms. The 2-year MBA was intense but worth every moment.</p>
+        <div class="review-tags"><span class="review-tag">Alumni network ✓</span><span class="review-tag">Consulting ✓</span></div>
+      </div>
+      <button onclick="window.location.href='qa.html'" style="width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;color:var(--primary);margin-top:4px;font-family:inherit">Write a review</button>
+    </div>
+
+    <!-- Q&A -->
+    <div class="tab-content" id="tab-qa">
+      <div class="card">
+        <h3><i class="ti ti-help"></i>Frequently asked questions</h3>
+        <div id="qaList"></div>
+        <button onclick="window.location.href='qa.html'" style="width:100%;background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;color:var(--primary);margin-top:8px;font-family:inherit"><i class="ti ti-pencil"></i> Ask a question</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div>
+    <div class="sidebar-card">
+      <h4>Apply for admission</h4>
+      <div class="deadline"><i class="ti ti-clock"></i>Application closes: Jan 15, 2026</div>
+      <div style="height:12px"></div>
+      <button class="apply-btn"><i class="ti ti-external-link"></i> Apply on official site</button>
+      <button class="outline-btn"><i class="ti ti-download"></i> Download brochure</button>
+    </div>
+    <div class="sidebar-card">
+      <h4>Contact information</h4>
+      <div class="contact-row"><i class="ti ti-phone"></i><span>+91-22-2576-7000</span></div>
+      <div class="contact-row"><i class="ti ti-mail"></i><span>admissions@iitb.ac.in</span></div>
+      <div class="contact-row"><i class="ti ti-world"></i><span style="color:var(--primary)">www.iitb.ac.in</span></div>
+      <div class="contact-row"><i class="ti ti-map-pin"></i><span>Powai, Mumbai — 400076</span></div>
+    </div>
+    <div class="sidebar-card">
+      <h4>Similar colleges</h4>
+      <div id="similarList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const faqs=[
+  {q:'What is the cutoff rank for CSE at IIT Bombay?',a:'For JEE Advanced 2024, the closing rank for B.Tech CSE was around 60–80 (General category). It varies year to year based on difficulty.'},
+  {q:'Does IIT Bombay offer scholarships?',a:'Yes — Merit-cum-Means (MCM) scholarships are available for students whose family income is below ₹5L/year. Many students also get institute free seats.'},
+  {q:'Is hostel accommodation guaranteed?',a:'Yes, all undergraduate students are guaranteed hostel accommodation on campus. IIT Bombay has 17 hostels.'},
+  {q:'What is the placement rate for B.Tech graduates?',a:'Over 90% of eligible students who participate in campus placements receive offers. Many students also go for higher studies at IITs, IIMs, or abroad.'},
+];
+
+document.getElementById('qaList').innerHTML=faqs.map(f=>`
+  <div style="border-bottom:1px solid var(--border);padding:12px 0" class="faq-item">
+    <div style="font-size:14px;font-weight:600;margin-bottom:5px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleFaq(this)">
+      ${f.q}<i class="ti ti-chevron-down" style="font-size:14px;color:#888;flex-shrink:0"></i>
+    </div>
+    <div style="font-size:13px;color:#555;line-height:1.7;display:none">${f.a}</div>
+  </div>`).join('');
+
+function toggleFaq(el){
+  const ans=el.nextElementSibling;
+  const icon=el.querySelector('i');
+  ans.style.display=ans.style.display==='none'?'block':'none';
+  icon.className='ti '+(ans.style.display==='block'?'ti-chevron-up':'ti-chevron-down');
+}
+
+document.getElementById('similarList').innerHTML=[
+  {name:'IIT Delhi',rank:'#2',href:'college.html?id=2'},
+  {name:'IIT Madras',rank:'#3',href:'college.html?id=3'},
+  {name:'BITS Pilani',rank:'#5',href:'college.html?id=5'},
+].map(c=>`<a href="${c.href}" style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)">
+  <span style="font-size:13px;font-weight:500">${c.name}</span>
+  <span style="font-size:12px;color:var(--text3)">${c.rank}</span>
+</a>`).join('');
+
+function switchTab(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+let saved=false;
+function toggleSave(){
+  saved=!saved;
+  document.getElementById('saveIcon').className='ti '+(saved?'ti-heart-filled':'ti-heart');
+  document.getElementById('saveBtn').innerHTML='<i class="ti '+(saved?'ti-heart-filled':'ti-heart')+'" id="saveIcon"></i> '+(saved?'Saved':'Save college');
+}
+</script>
+</body>
+</html>

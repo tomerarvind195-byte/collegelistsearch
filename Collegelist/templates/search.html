@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollegeFind | Search Colleges</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f5f5f0;color:#1a1a1a}
+:root{--primary:#534AB7;--primary-light:#EEEDFE;--primary-mid:#AFA9EC;--text:#1a1a1a;--text2:#555;--text3:#888;--bg:#f5f5f0;--card:#fff;--border:#e5e5e5}
+.top-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back-btn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--text2);display:flex;align-items:center;gap:6px;font-weight:500;text-decoration:none;font-family:inherit;transition:all .15s}
+.back-btn:hover{border-color:var(--primary);color:var(--primary)}
+.search-wrap{flex:1;display:flex;align-items:center;gap:8px;background:#f5f5f0;border:1px solid var(--border);border-radius:10px;padding:9px 14px}
+.search-wrap i{color:var(--text3);font-size:16px}
+.search-wrap input{flex:1;border:none;background:transparent;font-size:14px;color:var(--text);outline:none;font-family:inherit}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-wrap button{background:var(--primary);color:#fff;border:none;padding:7px 16px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:0;min-height:calc(100vh - 56px)}
+.sidebar{background:#fff;border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px}
+.sidebar-section{padding:0 20px 18px;border-bottom:1px solid var(--border)}
+.sidebar-section:last-child{border-bottom:none}
+.sidebar-section h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 12px}
+.sidebar-section:first-child h3{margin-top:0}
+.filter-option{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer}
+.filter-option label{font-size:14px;color:var(--text2);cursor:pointer;flex:1}
+.filter-option input[type=checkbox]{accent-color:var(--primary);width:15px;height:15px;cursor:pointer}
+.filter-count{font-size:11px;color:var(--text3);background:#f5f5f0;padding:1px 7px;border-radius:100px}
+.range-wrap{padding:4px 0}
+.range-wrap input[type=range]{width:100%;accent-color:var(--primary);cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:5px}
+.main{padding:22px 28px}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.results-count{font-size:14px;color:var(--text2)}
+.results-count strong{color:var(--text);font-weight:600}
+.sort-bar{display:flex;align-items:center;gap:8px}
+.sort-bar label{font-size:13px;color:var(--text3)}
+.sort-bar select{border:1px solid var(--border);background:#fff;border-radius:7px;padding:6px 10px;font-size:13px;color:var(--text);outline:none;cursor:pointer;font-family:inherit}
+.active-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;min-height:28px}
+.filter-tag{display:flex;align-items:center;gap:6px;background:var(--primary-light);border:1px solid var(--primary-mid);color:#3C3489;font-size:12px;padding:4px 10px;border-radius:100px;font-weight:500}
+.filter-tag button{background:none;border:none;cursor:pointer;color:#534AB7;font-size:16px;line-height:1;padding:0;font-family:inherit}
+.clear-all{font-size:12px;color:var(--primary);cursor:pointer;background:none;border:none;font-weight:500;font-family:inherit;padding:0}
+.college-list{display:flex;flex-direction:column;gap:14px}
+.list-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 22px;display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:start;cursor:pointer;transition:all .15s}
+.list-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);transform:translateY(-1px)}
+.list-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.list-icon i{font-size:24px}
+.list-name{font-size:16px;font-weight:600;margin-bottom:5px}
+.list-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:11px}
+.list-meta span{display:flex;align-items:center;gap:3px}
+.list-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{background:#f5f5f0;color:var(--text2);font-size:12px;padding:3px 9px;border-radius:5px;font-weight:500}
+.list-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:110px}
+.rating-pill{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#633806;background:#FAEEDA;padding:4px 10px;border-radius:100px}
+.fees-label{font-size:11px;color:var(--text3);text-align:right;font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.fees-val{font-size:15px;font-weight:600;color:var(--text);text-align:right}
+.action-row{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.sm-btn{border:1px solid var(--border);background:#fff;border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text2);display:flex;align-items:center;gap:5px;font-weight:500;font-family:inherit;transition:all .15s}
+.sm-btn:hover{background:#f5f5f0}
+.sm-btn.saved{color:var(--primary);border-color:var(--primary-mid)}
+.pagination{display:flex;gap:8px;margin-top:28px;justify-content:center;align-items:center}
+.page-btn{border:1px solid var(--border);background:#fff;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s}
+.page-btn:hover{border-color:var(--primary);color:var(--primary)}
+.page-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.no-results{text-align:center;padding:60px 20px;color:var(--text2)}
+.no-results i{font-size:40px;display:block;margin-bottom:12px;color:var(--text3)}
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .list-card{grid-template-columns:42px 1fr;gap:12px}
+  .list-right{display:none}
+  .top-bar{padding:10px 16px}
+  .main{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="/" class="back-btn"><i class="ti ti-arrow-left"></i> Home</a>
+  <div class="search-wrap">
+    <i class="ti ti-search"></i>
+    <input id="searchQ" placeholder="Search college, course, city…" onkeydown="if(event.key==='Enter')applyFilters()">
+    <button onclick="applyFilters()">Search</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <h3>Stream</h3>
+      <div class="filter-option"><input type="checkbox" id="f-eng" checked onchange="applyFilters()"><label for="f-eng">Engineering</label><span class="filter-count">2,140</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-mba" onchange="applyFilters()"><label for="f-mba">MBA</label><span class="filter-count">890</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-med" onchange="applyFilters()"><label for="f-med">Medical</label><span class="filter-count">620</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-law" onchange="applyFilters()"><label for="f-law">Law</label><span class="filter-count">310</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-arts" onchange="applyFilters()"><label for="f-arts">Arts & Science</label><span class="filter-count">1,050</span></div>
+    </div>
+    <div class="sidebar-section">
+      <h3>Annual fees</h3>
+      <div class="range-wrap">
+        <input type="range" min="0" max="30" value="30" id="feeRange" step="1" oninput="updateFeeLabel(this.value);applyFilters()">
+        <div class="range-labels"><span>Free</span><span id="feeLabel">Any</span><span>₹30L</span></div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <h3>City</h3>
+      <div class="filter-option"><input type="checkbox" id="f-delhi" checked onchange="applyFilters()"><label for="f-delhi">Delhi NCR</label><span class="filter-count">340</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-mumbai" checked onchange="applyFilters()"><label for="f-mumbai">Mumbai</label><span class="filter-count">280</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-blr" onchange="applyFilters()"><label for="f-blr">Bengaluru</label><span class="filter-count">250</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-pune" onchange="applyFilters()"><label for="f-pune">Pune</label><span class="filter-count">190</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-chen" onchange="applyFilters()"><label for="f-chen">Chennai / TN</label><span class="filter-count">160</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-kol" onchange="applyFilters()"><label for="f-kol">Kolkata</label><span class="filter-count">120</span></div>
+    </div>
+    <div class="sidebar-section">
+      <h3>Rating</h3>
+      <div class="filter-option"><input type="checkbox" id="f-r45" onchange="applyFilters()"><label for="f-r45">4.5+ stars</label></div>
+      <div class="filter-option"><input type="checkbox" id="f-r4" checked onchange="applyFilters()"><label for="f-r4">4+ stars</label></div>
+      <div class="filter-option"><input type="checkbox" id="f-r3" onchange="applyFilters()"><label for="f-r3">3+ stars</label></div>
+    </div>
+    <div class="sidebar-section">
+      <h3>College type</h3>
+      <div class="filter-option"><input type="checkbox" id="f-govt" checked onchange="applyFilters()"><label for="f-govt">Government</label><span class="filter-count">480</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-pvt" checked onchange="applyFilters()"><label for="f-pvt">Private</label><span class="filter-count">1,660</span></div>
+      <div class="filter-option"><input type="checkbox" id="f-deemed" onchange="applyFilters()"><label for="f-deemed">Deemed</label><span class="filter-count">210</span></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="results-header">
+      <span class="results-count" id="resultsCount">Loading…</span>
+      <div class="sort-bar">
+        <label>Sort by</label>
+        <select id="sortBy" onchange="applyFilters()">
+          <option value="rank">NIRF ranking</option>
+          <option value="rating">Rating</option>
+          <option value="fees_asc">Fees: Low to high</option>
+          <option value="fees_desc">Fees: High to low</option>
+          <option value="placement">Avg placement</option>
+        </select>
+      </div>
+    </div>
+    <div class="active-filters" id="activeTags"></div>
+    <div class="college-list" id="collegeList"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<script>
+const BANNERS=['#EEEDFE','#E1F5EE','#FAECE7','#E6F1FB','#FAEEDA'];
+const ICONS=['ti-building-estate','ti-flask','ti-gavel','ti-heart-rate-monitor','ti-chart-bar'];
+const TXTS=['#3C3489','#085041','#712B13','#042C53','#633806'];
+
+const allColleges=[
+{id:1,name:'IIT Bombay',loc:'Mumbai',city:'Mumbai',stream:'Engineering',type:'Government',feesNum:2.3,fees:'₹2.3L/yr',rating:4.9,placement:18,rank:1,icon:0,tags:['B.Tech','M.Tech','PhD']},
+{id:2,name:'IIT Delhi',loc:'Delhi NCR',city:'Delhi NCR',stream:'Engineering',type:'Government',feesNum:2.1,fees:'₹2.1L/yr',rating:4.8,placement:16,rank:2,icon:0,tags:['B.Tech','M.Tech','Dual degree']},
+{id:3,name:'IIT Madras',loc:'Chennai, Tamil Nadu',city:'Chennai / TN',stream:'Engineering',type:'Government',feesNum:2.0,fees:'₹2.0L/yr',rating:4.8,placement:15,rank:3,icon:4,tags:['B.Tech','M.Tech','PhD']},
+{id:4,name:'IIT Kanpur',loc:'Kanpur, UP',city:'Delhi NCR',stream:'Engineering',type:'Government',feesNum:2.2,fees:'₹2.2L/yr',rating:4.7,placement:14,rank:4,icon:0,tags:['B.Tech','M.Tech']},
+{id:5,name:'BITS Pilani',loc:'Pilani, Rajasthan',city:'Pune',stream:'Engineering',type:'Private',feesNum:4.5,fees:'₹4.5L/yr',rating:4.6,placement:12,rank:5,icon:1,tags:['B.E.','M.E.','M.Sc']},
+{id:6,name:'NIT Trichy',loc:'Tiruchirappalli, TN',city:'Chennai / TN',stream:'Engineering',type:'Government',feesNum:1.4,fees:'₹1.4L/yr',rating:4.5,placement:10,rank:9,icon:4,tags:['B.Tech','M.Tech']},
+{id:7,name:'DTU Delhi',loc:'Delhi NCR',city:'Delhi NCR',stream:'Engineering',type:'Government',feesNum:1.7,fees:'₹1.7L/yr',rating:4.4,placement:9,rank:15,icon:4,tags:['B.Tech','M.Tech']},
+{id:8,name:'VIT Vellore',loc:'Vellore, Tamil Nadu',city:'Chennai / TN',stream:'Engineering',type:'Deemed',feesNum:2.1,fees:'₹2.1L/yr',rating:4.2,placement:7,rank:11,icon:0,tags:['B.Tech','M.Tech','MBA']},
+{id:9,name:'Jadavpur University',loc:'Kolkata, WB',city:'Kolkata',stream:'Engineering',type:'Government',feesNum:0.3,fees:'₹30K/yr',rating:4.4,placement:8,rank:13,icon:1,tags:['B.E.','M.E.']},
+{id:10,name:'Manipal Institute of Tech',loc:'Manipal, Karnataka',city:'Bengaluru',stream:'Engineering',type:'Private',feesNum:3.5,fees:'₹3.5L/yr',rating:4.1,placement:6,rank:22,icon:4,tags:['B.Tech','M.Tech']},
+{id:11,name:'IIM Ahmedabad',loc:'Ahmedabad, Gujarat',city:'Pune',stream:'MBA',type:'Government',feesNum:24,fees:'₹24L total',rating:4.9,placement:32,rank:1,icon:1,tags:['MBA','FPM']},
+{id:12,name:'IIM Bangalore',loc:'Bengaluru, Karnataka',city:'Bengaluru',stream:'MBA',type:'Government',feesNum:23,fees:'₹23L total',rating:4.8,placement:30,rank:2,icon:4,tags:['MBA','PGPEM']},
+{id:13,name:'IIM Calcutta',loc:'Kolkata, WB',city:'Kolkata',stream:'MBA',type:'Government',feesNum:22,fees:'₹22L total',rating:4.7,placement:28,rank:3,icon:1,tags:['MBA','FPM']},
+{id:14,name:'AIIMS Delhi',loc:'New Delhi',city:'Delhi NCR',stream:'Medical',type:'Government',feesNum:0.02,fees:'₹1.6K/yr',rating:4.9,placement:12,rank:1,icon:3,tags:['MBBS','MD','MS']},
+{id:15,name:'CMC Vellore',loc:'Vellore, Tamil Nadu',city:'Chennai / TN',stream:'Medical',type:'Private',feesNum:0.8,fees:'₹80K/yr',rating:4.7,placement:10,rank:3,icon:3,tags:['MBBS','MD']},
+{id:16,name:'NLU Delhi',loc:'New Delhi',city:'Delhi NCR',stream:'Law',type:'Government',feesNum:1.8,fees:'₹1.8L/yr',rating:4.7,placement:9,rank:2,icon:2,tags:['BA LLB','LLM']},
+{id:17,name:'NLU Bangalore',loc:'Bengaluru, Karnataka',city:'Bengaluru',stream:'Law',type:'Government',feesNum:2.2,fees:'₹2.2L/yr',rating:4.6,placement:8,rank:3,icon:2,tags:['BA LLB','LLM']},
+];
+
+let savedSet=new Set();
+const PER_PAGE=8;
+let currentPage=1;
+let filtered=[];
+
+function updateFeeLabel(v){
+  document.getElementById('feeLabel').textContent=parseInt(v)>=30?'Any':'Up to ₹'+v+'L';
+}
+
+function getFilters(){
+  const streams=[];
+  if(document.getElementById('f-eng').checked)streams.push('Engineering');
+  if(document.getElementById('f-mba').checked)streams.push('MBA');
+  if(document.getElementById('f-med').checked)streams.push('Medical');
+  if(document.getElementById('f-law').checked)streams.push('Law');
+  if(document.getElementById('f-arts').checked)streams.push('Arts & Science');
+  const cities=[];
+  if(document.getElementById('f-delhi').checked)cities.push('Delhi NCR');
+  if(document.getElementById('f-mumbai').checked)cities.push('Mumbai');
+  if(document.getElementById('f-blr').checked)cities.push('Bengaluru');
+  if(document.getElementById('f-pune').checked)cities.push('Pune');
+  if(document.getElementById('f-chen').checked)cities.push('Chennai / TN');
+  if(document.getElementById('f-kol').checked)cities.push('Kolkata');
+  const types=[];
+  if(document.getElementById('f-govt').checked)types.push('Government');
+  if(document.getElementById('f-pvt').checked)types.push('Private');
+  if(document.getElementById('f-deemed').checked)types.push('Deemed');
+  let minR=0;
+  if(document.getElementById('f-r45').checked)minR=4.5;
+  else if(document.getElementById('f-r4').checked)minR=4;
+  else if(document.getElementById('f-r3').checked)minR=3;
+  const maxFees=parseInt(document.getElementById('feeRange').value);
+  return{streams,cities,types,minR,maxFees};
+}
+
+function applyFilters(){
+  const q=document.getElementById('searchQ').value.toLowerCase().trim();
+  const sort=document.getElementById('sortBy').value;
+  const f=getFilters();
+  filtered=allColleges.filter(c=>{
+    if(q&&!c.name.toLowerCase().includes(q)&&!c.stream.toLowerCase().includes(q)&&!c.loc.toLowerCase().includes(q))return false;
+    if(f.streams.length&&!f.streams.includes(c.stream))return false;
+    if(f.cities.length&&!f.cities.includes(c.city))return false;
+    if(f.types.length&&!f.types.includes(c.type))return false;
+    if(c.rating<f.minR)return false;
+    if(f.maxFees<30&&c.feesNum>f.maxFees)return false;
+    return true;
+  });
+  if(sort==='rank')filtered.sort((a,b)=>a.rank-b.rank);
+  else if(sort==='rating')filtered.sort((a,b)=>b.rating-a.rating);
+  else if(sort==='fees_asc')filtered.sort((a,b)=>a.feesNum-b.feesNum);
+  else if(sort==='fees_desc')filtered.sort((a,b)=>b.feesNum-a.feesNum);
+  else if(sort==='placement')filtered.sort((a,b)=>b.placement-a.placement);
+  currentPage=1;
+  renderTags(f);
+  renderPage();
+}
+
+function renderPage(){
+  const start=(currentPage-1)*PER_PAGE;
+  const page=filtered.slice(start,start+PER_PAGE);
+  document.getElementById('resultsCount').innerHTML='Showing <strong>'+(start+1)+'–'+Math.min(start+page.length,filtered.length)+'</strong> of <strong>'+filtered.length+'</strong> colleges';
+  const el=document.getElementById('collegeList');
+  if(!filtered.length){el.innerHTML='<div class="no-results"><i class="ti ti-search-off"></i><p style="font-size:15px;font-weight:500;margin-bottom:6px">No colleges found</p><p style="font-size:13px">Try adjusting your filters or search term.</p></div>';renderPagination();return;}
+  el.innerHTML=page.map(c=>`
+    <div class="list-card">
+      <div class="list-icon" style="background:${BANNERS[c.icon]}"><i class="ti ${ICONS[c.icon]}" style="color:${TXTS[c.icon]}"></i></div>
+      <div>
+        <div class="list-name">${c.name}</div>
+        <div class="list-meta">
+          <span><i class="ti ti-map-pin" style="font-size:11px"></i>${c.loc}</span>
+          <span><i class="ti ti-building" style="font-size:11px"></i>${c.type}</span>
+          <span><i class="ti ti-award" style="font-size:11px"></i>NIRF #${c.rank}</span>
+          <span><i class="ti ti-trending-up" style="font-size:11px"></i>₹${c.placement}L avg</span>
+        </div>
+        <div class="list-tags">${c.tags.map(t=>'<span class="tag">'+t+'</span>').join('')}</div>
+        <div class="action-row">
+          <button class="sm-btn${savedSet.has(c.id)?' saved':''}" onclick="toggleSave(${c.id},this)">
+            <i class="ti ${savedSet.has(c.id)?'ti-heart-filled':'ti-heart'}"></i>${savedSet.has(c.id)?'Saved':'Save'}
+          </button>
+          <button class="sm-btn" onclick="window.location.href='college.html?id=${c.id}'"><i class="ti ti-info-circle"></i>Details</button>
+          <button class="sm-btn" onclick="window.location.href='compare.html?ids=${c.id}'"><i class="ti ti-columns"></i>Compare</button>
+        </div>
+      </div>
+      <div class="list-right">
+        <span class="rating-pill"><i class="ti ti-star-filled" style="font-size:11px;color:#BA7517"></i>${c.rating}</span>
+        <div><div class="fees-label">Annual fees</div><div class="fees-val">${c.fees}</div></div>
+      </div>
+    </div>`).join('');
+  renderPagination();
+}
+
+function renderPagination(){
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  const el=document.getElementById('pagination');
+  if(total<=1){el.innerHTML='';return;}
+  let html='';
+  if(currentPage>1)html+='<button class="page-btn" onclick="goPage('+(currentPage-1)+')"><i class="ti ti-chevron-left"></i></button>';
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-currentPage)<=1)html+='<button class="page-btn'+(i===currentPage?' active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
+    else if(Math.abs(i-currentPage)===2)html+='<span style="color:#888;padding:0 4px">…</span>';
+  }
+  if(currentPage<total)html+='<button class="page-btn" onclick="goPage('+(currentPage+1)+')"><i class="ti ti-chevron-right"></i></button>';
+  el.innerHTML=html;
+}
+
+function goPage(p){currentPage=p;renderPage();window.scrollTo(0,0);}
+
+function renderTags(f){
+  const el=document.getElementById('activeTags');
+  const tags=[...f.streams,...f.cities];
+  if(parseInt(document.getElementById('feeRange').value)<30)tags.push('Up to ₹'+document.getElementById('feeRange').value+'L');
+  if(f.minR>0)tags.push(f.minR+'+ stars');
+  el.innerHTML=tags.length?tags.map(t=>'<span class="filter-tag">'+t+'<button onclick="this.parentNode.remove()">×</button></span>').join('')+'<button class="clear-all" onclick="clearFilters()">Clear all</button>':'';
+}
+
+function clearFilters(){
+  ['f-eng','f-mba','f-med','f-law','f-arts'].forEach(id=>document.getElementById(id).checked=['f-eng'].includes(id));
+  ['f-delhi','f-mumbai','f-blr','f-pune','f-chen','f-kol'].forEach(id=>document.getElementById(id).checked=['f-delhi','f-mumbai'].includes(id));
+  ['f-govt','f-pvt','f-deemed'].forEach(id=>document.getElementById(id).checked=['f-govt','f-pvt'].includes(id));
+  ['f-r45','f-r4','f-r3'].forEach(id=>document.getElementById(id).checked=['f-r4'].includes(id));
+  document.getElementById('feeRange').value=30;updateFeeLabel(30);
+  document.getElementById('searchQ').value='';
+  applyFilters();
+}
+
+function toggleSave(id,btn){
+  if(savedSet.has(id)){savedSet.delete(id);btn.className='sm-btn';btn.innerHTML='<i class="ti ti-heart"></i>Save';}
+  else{savedSet.add(id);btn.className='sm-btn saved';btn.innerHTML='<i class="ti ti-heart-filled"></i>Saved';}
+}
+
+// Read URL params
+const params=new URLSearchParams(location.search);
+if(params.get('q'))document.getElementById('searchQ').value=params.get('q');
+if(params.get('stream')){
+  const streamMap={'Engineering':'f-eng','MBA':'f-mba','Medical':'f-med','Law':'f-law'};
+  const fid=streamMap[params.get('stream')];
+  if(fid){['f-eng','f-mba','f-med','f-law','f-arts'].forEach(id=>document.getElementById(id).checked=false);document.getElementById(fid).checked=true;}
+}
+applyFilters();
+</script>
+</body>
+</html>
