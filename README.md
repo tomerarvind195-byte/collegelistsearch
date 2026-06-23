@@ -90,7 +90,14 @@ CollegeFind/
 │   └── server.js
 └── README.md
 
-
+🎯 Future Improvements
+- User Authentication
+- Save Favourite Colleges
+- Discussion Forum (Q&A)
+- Real Database Integration
+- AI-based College Recommendation
+- Placement Analytics
+- Admission Alerts
 
 
 📌 Project Objective
