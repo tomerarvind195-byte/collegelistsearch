@@ -34,8 +34,8 @@
 **Inspired by:** Platforms like Shiksha, Collegedunia, and CollegeDekho — built from scratch as a full-featured MVP.
 
 **Key Highlights:**
-- 4 fully functional pages — Home, College Listing, Compare, Predictor
-- Search by college name, course, location, fees, rating, and stream
+- 4 fully functional pages — Home, College Listing, Compare, Predictor.
+- Search by college name, course, location, fees, rating, and stream.
 - College Predictor — recommends colleges based on exam name and rank
 - Compare up to 3 colleges side-by-side
 - Fully responsive design — works on mobile, tablet, and desktop
