@@ -25,7 +25,8 @@
 |-----------|----------------|-----------------|
 | ![Home](<img width="1763" height="2588" alt="image" src="https://github.com/user-attachments/assets/db2dfade-16f4-4ed0-b4d9-36b343da11d8" />
 ) | ![Listing](<img width="1763" height="1240" alt="image" src="https://github.com/user-attachments/assets/150a6fd1-f725-4650-b41b-8bb93af6ab27" />
-) | ![Compare](screenshots/compare.png) |
+) | ![Compare](<img width="1763" height="1112" alt="image" src="https://github.com/user-attachments/assets/f018a78c-4761-4ebc-949e-c2e228c4413b" />
+) |
 
 ---
 
