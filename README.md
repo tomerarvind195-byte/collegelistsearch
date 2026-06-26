@@ -96,7 +96,7 @@ College_list_search-WebApplication/
 │   ├── index.html                # Home Page
 │   ├── college.html              # College Detail Page
 │   ├── compare.html              # Compare Colleges Page
-│   ├── predictor.html            # College Predictor Page
+│   ├── predictor.html            # College Predictor Page  and other 
 │   │
 │   ├── css/
 │   │   └── style.css             # Main stylesheet
