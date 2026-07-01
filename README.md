@@ -123,9 +123,9 @@ College_list_search-WebApplication/
 ### Option 1 — Open directly in browser (Quickest)
 
 ```bash
-# 1. Clone the repository
+# 1. Clone the repository.
 git clone https://github.com/tomerarvind195-byte/College_list_search-WebApplication.git
-cd College_list_search-WebApplication/Collegelist
+cd College_list_search-WebApplication/Collegelist.
 
 # 2. Open index.html in your browser
 # Just double-click index.html — no setup needed!
@@ -135,7 +135,7 @@ cd College_list_search-WebApplication/Collegelist
 
 ```bash
 # Navigate to project folder
-cd College_list_search-WebApplication/Collegelist
+cd College_list_search-WebApplication/Collegelist.
 
 # Start Python local server
 python -m http.server 8000
