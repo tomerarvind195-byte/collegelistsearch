@@ -1,4 +1,4 @@
-# 🎓 CollegeFind — College Listing compare  college & Search Web Application
+# 🎓 CollegeFind — College Listing, compare  college & Search Web Application
 
 > A modern college discovery platform that helps students search, compare, and explore colleges across India — built with HTML5, CSS3, JavaScript, and Python.
 
